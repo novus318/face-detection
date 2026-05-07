@@ -3,8 +3,9 @@ from contextlib import asynccontextmanager
 import logging
 from app.config import get_settings
 from app.api.v1.router import api_router
-from app.api.v1.verify import set_detector
+from app.api.v1.verify import set_detector, set_embedding_model
 from app.core.models import ONNXDetector
+from app.core.embedding import MobileFaceNet
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -13,7 +14,7 @@ logger = logging.getLogger(__name__)
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     settings = get_settings()
-    logger.info("Loading ONNX model...")
+    logger.info("Loading models...")
     
     try:
         detector = ONNXDetector(
@@ -21,7 +22,11 @@ async def lifespan(app: FastAPI):
             providers=["CPUExecutionProvider"]
         )
         set_detector(detector)
-        logger.info("ONNX model loaded successfully")
+        logger.info("YOLOv5n-face detector loaded")
+
+        embedding_model = MobileFaceNet()
+        set_embedding_model(embedding_model)
+        logger.info("InsightFace embedding model loaded")
     except Exception as e:
         logger.error(f"Failed to load model: {e}")
         raise
