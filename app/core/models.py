@@ -12,18 +12,10 @@ class ONNXDetector:
             providers = ["CPUExecutionProvider"]
         
         try:
-            import os
-            os.environ["OMP_NUM_THREADS"] = "4"
-            os.environ["MKL_NUM_THREADS"] = "4"
-            
             from insightface.app import FaceAnalysis
             self.app = FaceAnalysis(name="buffalo_l", providers=providers)
             self.app.prepare(ctx_id=0, det_size=(640, 640))
             self.use_insightface = True
-            
-            for sess in self.app.models:
-                sess.graph_optimization_level = 99
-            
             logger.info("Face detector loaded (InsightFace buffalo_l)")
         except Exception as e:
             logger.error(f"Failed to load InsightFace: {e}")
