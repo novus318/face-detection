@@ -10,4 +10,5 @@ pydantic-settings>=2.7.0
 opencv-python-headless>=4.10.0
 insightface>=0.7.0
 requests>=2.32.0
-azure-ai-documentintelligence>=3.3.0
+azure-ai-documentintelligence>=1.0.0
+azure-identity>=1.15.0
