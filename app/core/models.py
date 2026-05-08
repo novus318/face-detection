@@ -14,7 +14,7 @@ class ONNXDetector:
         try:
             from insightface.app import FaceAnalysis
             self.app = FaceAnalysis(name="buffalo_l", providers=providers)
-            self.app.prepare(ctx_id=0, det_size=(640, 640))
+            self.app.prepare(ctx_id=0, det_size=(320, 320))
             self.use_insightface = True
             logger.info("Face detector loaded (InsightFace buffalo_l)")
         except Exception as e:
