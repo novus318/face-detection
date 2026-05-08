@@ -36,3 +36,21 @@ class VerifyResponse(BaseModel):
     processing_ms: int = Field(..., description="Total processing time in milliseconds")
     m1_face_metrics: Optional[FaceMetrics] = Field(None, description="Face quality metrics for m1")
     m2_face_metrics: Optional[FaceMetrics] = Field(None, description="Face quality metrics for best m2 match")
+
+
+class DocIntelResponse(BaseModel):
+    document_type: str = Field(..., description="Document type: passport, driversLicense, nationalIdCard")
+    country: str = Field(..., description="Country/region of issuance")
+    country_code: Optional[str] = Field(None, description="ISO country code")
+    first_name: Optional[str] = Field(None, description="First name")
+    last_name: Optional[str] = Field(None, description="Last name")
+    date_of_birth: Optional[str] = Field(None, description="Date of birth (raw)")
+    dob_formatted: Optional[str] = Field(None, description="Date of birth (formatted)")
+    document_number: Optional[str] = Field(None, description="Document number")
+    nationality: Optional[str] = Field(None, description="Nationality")
+    sex: Optional[str] = Field(None, description="Sex/M gender")
+    expiration_date: Optional[str] = Field(None, description="Expiration date")
+    issue_date: Optional[str] = Field(None, description="Issue date")
+    region: Optional[str] = Field(None, description="Region/state")
+    address: Optional[str] = Field(None, description="Address")
+    raw_confidence: float = Field(..., description="Overall confidence score")

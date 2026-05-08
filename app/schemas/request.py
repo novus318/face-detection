@@ -9,3 +9,7 @@ class VerifyRequest(BaseModel):
         default=None,
         description="Optional parameters: return_images, match_threshold"
     )
+
+
+class DocIntelRequest(BaseModel):
+    document_url: str = Field(..., description="URL of the document image (passport, ID card, license)")

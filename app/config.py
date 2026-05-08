@@ -11,6 +11,9 @@ class Settings(BaseSettings):
     download_timeout: int = 5
     blur_threshold: float = 100.0
 
+    azure_doc_intel_endpoint: str = ""
+    azure_doc_intel_key: str = ""
+
     model_config = {
         "env_file": ".env",
         "env_file_encoding": "utf-8",

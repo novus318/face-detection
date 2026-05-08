@@ -43,3 +43,20 @@ async def download_multiple(urls: list[str], timeout: int = 5, max_size: int = 1
     import asyncio
     tasks = [download_image(url, timeout, max_size) for url in urls]
     return await asyncio.gather(*tasks)
+
+
+async def download_single_image(url: str, timeout: int = 5, max_size: int = 1024) -> Optional[bytes]:
+    try:
+        ssl_context = aiohttp.TCPConnector(ssl=False)
+        async with aiohttp.ClientSession(connector=ssl_context) as session:
+            async with session.get(url, timeout=aiohttp.ClientTimeout(total=timeout)) as response:
+                if response.status != 200:
+                    logger.warning(f"Failed to download {url}: status {response.status}")
+                    return None
+                
+                content = await response.read()
+                return content
+                
+    except Exception as e:
+        logger.error(f"Error downloading {url}: {str(e)}")
+        return None
