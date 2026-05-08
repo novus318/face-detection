@@ -12,9 +12,20 @@ class ONNXDetector:
             providers = ["CPUExecutionProvider"]
         
         try:
+            import os
+            os.environ["OMP_NUM_THREADS"] = "4"
+            os.environ["MKL_NUM_THREADS"] = "4"
+            
+            import onnxruntime as ort
+            sess_options = ort.SessionOptions()
+            sess_options.graph_optimization_level = ort.GraphOptimizationLevel.ORT_ENABLE_ALL
+            sess_options.intra_op_num_threads = 4
+            sess_options.inter_op_num_threads = 4
+            sess_options.execution_mode = ort.ExecutionMode.ORT_SEQUENTIAL
+            
             from insightface.app import FaceAnalysis
             self.app = FaceAnalysis(name="buffalo_l", providers=providers)
-            self.app.prepare(ctx_id=0, det_size=(320, 320))
+            self.app.prepare(ctx_id=0, det_size=(640, 640))
             self.use_insightface = True
             logger.info("Face detector loaded (InsightFace buffalo_l)")
         except Exception as e:
